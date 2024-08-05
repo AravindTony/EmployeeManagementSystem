@@ -19,12 +19,14 @@ import com.salaryaccount.service.SalaryAccountService;
 import com.salaryaccount.service.SalaryAccountServiceImpl;
 
 /**
-* <p>This Class is the service class for the Employee Controller
-* and Dao for the Business Logic</p>
-* @author Aravind
-*/
+ * <p>
+ *This Class is the service class for the Employee Controller
+ * and Dao for the Business Logic
+ * </p>
+ * @author Aravind
+ */
 public class EmployeeServiceImpl implements EmployeeService {
-    public EmployeeDao employeeDao = new EmployeeDaoImpl();
+    EmployeeDao employeeDao = new EmployeeDaoImpl();
     DepartmentService departmentService = new DepartmentServiceImpl();
     SalaryAccountService salaryAccountService = new SalaryAccountServiceImpl();
 
@@ -59,8 +61,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
      
     @Override
-    public void getDepartments() {
-	departmentService.printDepartments();
+    public void getDepartments() throws EmployeeException {
+	departmentService.getDepartments();
     }
 
     @Override

@@ -23,11 +23,13 @@ import com.mentor.dao.MentorDaoImpl;
 import com.connectionmanager.HibernateManager;
 
 /** 
-* <p>This class Handles the Operations like Insertion 
-* Updation, Retrieving and Deletion of Mentors Information
-* from the Database</p>
-* @author Aravind
-*/
+ * <p>
+ * This class Handles the Operations like Insertion 
+ * Updation, Retrieving and Deletion of Mentors Information
+ * from the Database
+ *</p>
+ * @author Aravind
+ */
 public class MentorDaoImpl implements MentorDao {
     static Map<Integer, Mentor> mentors= new HashMap<>();
 
@@ -43,12 +45,14 @@ public class MentorDaoImpl implements MentorDao {
             mentor = query.uniqueResult();
             transaction.commit();
         } catch (HibernateException e) {
-            if(transaction != null) {
+            if(null != transaction) {
                 transaction.rollback();
             }
             throw new EmployeeException("Error while get Mentor with id : " + mentorId, e);
         } finally {
-            session.close();
+            if (null != session) {
+                session.close();
+	    }
         }
         return mentor;
     }
@@ -67,12 +71,14 @@ public class MentorDaoImpl implements MentorDao {
             }
             transaction.commit();     
         } catch (HibernateException e) {
-            if (transaction != null) {
+            if (null != transaction) {
                 transaction.rollback();
             }
             throw new EmployeeException("Error while fetching available Mentors !", e);
         } finally {
-            session.close();
+            if (null != session) {
+                session.close();
+	    }
         }
         return mentors;
     }    
@@ -87,12 +93,14 @@ public class MentorDaoImpl implements MentorDao {
             Integer id = (Integer) session.save(mentor);
             transaction.commit();
         } catch (HibernateException e) {
-            if(transaction != null) {
+            if(null != transaction) {
                 transaction.rollback();
             }
             throw new EmployeeException("Error while adding Mentor of name : " + name, e);
         } finally {
-            session.close();
+            if (null != session) {
+                session.close();
+	    }
         }
     }
 
@@ -113,7 +121,7 @@ public class MentorDaoImpl implements MentorDao {
             session.saveOrUpdate(mentorObject);  
             transaction.commit();          
         } catch (HibernateException e) {
-            if(transaction != null) {
+            if(null != transaction) {
                 transaction.rollback();
             }
 	    System.out.println("Hibernate Session Failed..");
@@ -122,7 +130,9 @@ public class MentorDaoImpl implements MentorDao {
             throw new EmployeeException("Error while adding mentor " + mentor.getMentorName()
                                         + "to employee id : " + employee.getEmployeeName(), e);
         } finally {
-            session.close();
+            if (null != session) {
+                session.close();
+	    }
         }
     }
     
@@ -137,18 +147,20 @@ public class MentorDaoImpl implements MentorDao {
             Mentor mentor = session.createQuery(hql, Mentor.class)
                                               .setParameter("mentorId", mentorId)
                                               .uniqueResult();
-            if (mentor != null) {
+            if (null != mentor) {
                 Hibernate.initialize(mentor.getEmployees());
                 employees = mentor.getEmployees();
             }
             transaction.commit();
         } catch (HibernateException e) {
-            if(transaction != null) {
+            if(null != transaction) {
                 transaction.rollback();
             }
             throw new EmployeeException("Error while getting employees of mentor id : " + mentorId, e);
         } finally {
-            session.close();
+            if (null != session) {
+                session.close();
+	    }
         }
         return employees;
     }
@@ -171,7 +183,9 @@ public class MentorDaoImpl implements MentorDao {
             }
             throw new EmployeeException("Error while deleting employee of id : " + mentorId, e);
         } finally {
-            session.close();
+            if (null != session) {
+                session.close();
+	    }
         }
     }
 }

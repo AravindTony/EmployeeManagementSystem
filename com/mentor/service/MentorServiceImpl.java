@@ -12,10 +12,12 @@ import com.mentor.service.MentorService;
 import com.mentor.dao.MentorDaoImpl;
 
 /** 
-* <p>This class is the Service Implementation for the Mentor 
-* To insert the data about the Mentor to the Dao</p>
-* @author Aravind
-*/
+ * <p>
+ * This class is the Service Implementation for the Mentor 
+ * To insert the data about the Mentor to the Dao
+ * </p>
+ * @author Aravind
+ */
 public class MentorServiceImpl implements MentorService {
     MentorDao mentorDao = new MentorDaoImpl();
 

@@ -6,23 +6,27 @@ import com.department.controller.DepartmentController;
 import com.mentor.controller.MentorController;
 
 /** 
-* EmployeeManagementSystem class simulates a Management System 
-* for Employees
-* @author Aravind
-*/
+ * <p>
+ * EmployeeManagementSystem class simulates a Management System 
+ * for Employees 
+ * </p>
+ * @author Aravind
+ */
 
 public class EmployeeManagementSystem {
-    static boolean bool = true;
-    static EmployeeController employeeController = new EmployeeController();
-    static MentorController mentorController = new MentorController();
-    static DepartmentController departmentController = new DepartmentController();
+    private static boolean isExit = true;
+    private static EmployeeController employeeController = new EmployeeController();
+    private static MentorController mentorController = new MentorController();
+    private static DepartmentController departmentController = new DepartmentController();
 
     /** 
-    * This method get the choice from the user 
-    * to perform Employee Operations
-    *
-    * @param choice choice get from the user
-    */
+     * <p>
+     * This method get the choice from the user 
+     * to perform Employee Operations
+     *
+     * @param choice choice get from the user
+     * </p>
+     */
     public static void getChoice() {
         do {
 	    Scanner scanner = new Scanner(System.in);
@@ -87,7 +91,7 @@ public class EmployeeManagementSystem {
 		    break;
 
 	        case 12:
-                    bool = false;
+                    isExit = false;
 		    System.out.println("Exiting..");
 		    break;
 
@@ -95,7 +99,7 @@ public class EmployeeManagementSystem {
 		    System.out.println("Enter Valid Number :");
                     getChoice();
 	    }
-        } while (bool);
+        } while (isExit);
     } 
 
     public static void main(String[] args) {

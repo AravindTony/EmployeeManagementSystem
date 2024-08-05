@@ -8,45 +8,52 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.employee.service.EmployeeService;
 import com.employee.service.EmployeeServiceImpl;
 import com.model.Mentor;
 import com.model.Employee;
 import com.mentor.service.MentorService;
-import com.mentor.controller.MentorController;
 import com.model.Department;
 import com.model.SalaryAccount;
 import com.customexception.EmployeeException;
 import com.mentor.service.MentorServiceImpl;
-import com.utils.Validator;
+import com.util.Validator;
 
 /**
-* <p>This class is the Controller for Employee get all the Informations
-* about the Employee and also various methods like
-* Create Employee Record 
-* Display the Employee record(s)
-* Update the Employee Record
-* Delete the Employee Record in the Repository</p>
-* @author Aravind
-*/
+ * <p>
+ *This class is the Controller for Employee get all the Informations
+ * about the Employee and also various methods like
+ * Create Employee Record 
+ * Display the Employee record(s)
+ * Update the Employee Record
+ * Delete the Employee Record in the Repository
+ *</p>
+ * @author Aravind
+ */
 public class EmployeeController {
-    static Scanner inputObject = new Scanner(System.in);
-    MentorService mentorService = new MentorServiceImpl();
-    EmployeeService employeeService = new EmployeeServiceImpl();
-    MentorController mentorController = new MentorController();
+    private static Scanner inputObject = new Scanner(System.in);
+    private MentorService mentorService = new MentorServiceImpl();
+    private static Logger logger = LogManager.getLogger();
+    private EmployeeService employeeService = new EmployeeServiceImpl();
 
     /**
-    * This method used to get the credentials 
-    * by the User to create EmployeeRecord.
-    */
+     * <p>
+     * This method used to get the credentials 
+     * by the User to create EmployeeRecord.
+     * </p>
+     */
     public void createEmployeeRecord() {
 	try {
 	    if (employeeService.getEmployeeDepartments().size() == 0) {
-                System.out.println("Add a department to continue.. Departments are Empty..");
+                logger.warn("Add a department to continue.. Departments are Empty..");
             }
             else {
 	        try {
                     System.out.println("Employee Management System..");
+	            logger.debug("Employee Credentials Validation Started..");
 	            String employeeName = getValidEmployeeName();
 	            LocalDate dateOfBirth = getValidDateOfBirth();
                     employeeService.getDepartments();
@@ -64,26 +71,28 @@ public class EmployeeController {
 		    String bankName = inputObject.nextLine();
 	            System.out.println("Enter Bank Account Number :");
 		    long accountNumber = inputObject.nextLong();
+	 	    logger.debug("Employee Credentials Validation Completed..");
                     Employee employee = employeeService.addData(employeeName, dateOfBirth, mobileNumber
                                   , departmentId, qualification, experience, employeeEmail, bankName, accountNumber);
-		    System.out.println(employee.getEmployeeName() + "Employee Added Successfully..");
+		    logger.info(employee.getEmployeeName() + " Employee Added Successfully..");
 	        }
                 catch (Exception e) {
-	            System.out.println("An error occurred while creating an employee record: " 
+	            logger.error("An error occurred while creating an employee record: " 
 				  + e.getMessage());
                 }
             }
 	}
 	catch (EmployeeException e) {
-	    System.out.println("An Error occured while creating employee Record.." + e.getMessage());
+	    logger.error("An Error occured while creating employee Record.." + e.getMessage());
 	}
     }
 
     /**
-    * This method return the Employee Name if the Name valid
-    * 
-    * @return employeeName - Name of the Employee
-    */
+     * <p>
+     * This method return the Employee Name if the Name valid
+     * </p>
+     * @return employeeName - Name of the Employee
+     */
     public String getValidEmployeeName() {
 	System.out.println("Enter Employee Name :");
         String employeeName = inputObject.nextLine();
@@ -95,10 +104,11 @@ public class EmployeeController {
     }
 
     /**
-    * This method return the Employee Valid Date Of Birth
-    * 
-    * @return dateOfBirth - Date of Birth of the Employee
-    */
+     * <p>
+     * This method return the Employee Valid Date Of Birth
+     * </p>
+     * @return dateOfBirth - Date of Birth of the Employee
+     */
     public LocalDate getValidDateOfBirth() {
         System.out.println("Enter Employee Date of Birth (yyyy-mm-dd) :");
 	String dateOfBirthStr = inputObject.nextLine();
@@ -107,10 +117,11 @@ public class EmployeeController {
     }
 
     /**
-    * This method return the Employee Mobile Number if the Mobile Number valid
-    * 
-    * @return mobileNumber - Mobile number of the Employee 
-    */
+     * </p>
+     * This method return the Employee Mobile Number if the Mobile Number valid
+     * </p>
+     * @return mobileNumber - Mobile number of the Employee 
+     */
     public long getValidMobileNumber() {
 	System.out.println("Enter Employee Mobile Number :");
         long mobileNumber = inputObject.nextLong();
@@ -122,10 +133,11 @@ public class EmployeeController {
     }
 
     /**
-    * This method return the Employee Email Id if the Email valid
-    * 
-    * @return employeeEmail - Email id of the Employee
-    */
+     * <p>
+     * This method return the Employee Email Id if the Email valid
+     * </p>
+     * @return employeeEmail - Email id of the Employee
+     */
     public String getValidEmailId() {
 	System.out.println("Enter Employee Email Id :");
         String employeeEmail = inputObject.nextLine();  
@@ -137,14 +149,17 @@ public class EmployeeController {
     }
 
     /** 
-    * This method to Display 
-    * all the Records from the List
-    * Retrieving from the Database
-    */
+     * <p>
+     * This method to Display 
+     * all the Records from the List
+     * Retrieving from the Database
+     * </p>
+     */
     public void displayRecords() {
+        logger.debug("Retrieving the List of Employees..");
 	try {
             if (employeeService.getEmployeeDetails().size() == 0) {
-                System.out.println("No Data Found..");
+                logger.info("No Data Found..");
                 System.out.println("----------------------");
             }
 	    String format = "| %-4s | %-15s | %-10s | %-5s | %-15s | %-15s" 
@@ -171,23 +186,26 @@ public class EmployeeController {
 			       	 + "--------------------------------------");
             }   
         } catch (Exception e) {
-            System.out.println("An error occurred while displaying all records: " 
+            logger.error("An error occurred while displaying all records: " 
 				+ e.getMessage());
         }
     }
 
     /**
-    * This Method is used to display the 
-    * Specific Employee Record in the list
-    * retrieving from the Database
-    */
+     * <p>
+     * This Method is used to display the 
+     * Specific Employee Record in the list
+     * retrieving from the Database
+     * </p>
+     */
     public void displayEmployeeRecord() {
-	int updateId = 0;
+	int displayId = 0;
     	try {
             System.out.println("Enter Employee Id to Display :");
-            updateId = inputObject.nextInt();
-	    Employee employee = employeeService.getEmployeeById(updateId);
-	    if (employee != null) {
+            displayId = inputObject.nextInt();
+            logger.debug("Searching Employee with this Id :" + displayId);
+	    Employee employee = employeeService.getEmployeeById(displayId);
+	    if (null != employee) {
 	        String format = "| %-4s | %-15s | %-10s | %-5s | %-15s | %-15s" 
                                 + "| %-7s | %-5s | %-15s \n";
 	        System.out.format(format, "Id", "Name", "Department", "Age"
@@ -209,19 +227,21 @@ public class EmployeeController {
 		  	        + "--------------------------------------"
 		                + "--------------------------------------");
 	    } else {
-		System.out.println("Employee Data not Found..");
+		logger.info("Employee Data not Found with this Id :" + displayId);
 	    }
         }
         catch (EmployeeException e) {
-	    System.out.println("An error Occurred while Display Employee Record for the Employee Id :"
-				+updateId + e.getMessage());
+	    logger.error("An error Occurred while Display Employee Record for the Employee Id :"
+				+displayId + e.getMessage());
         }
     }
 
     /**
-    * This Method to Update an Employee Record
-    * in the List with the Employee Id
-    */
+     * <p>
+     * This Method to Update an Employee Record
+     * in the List with the Employee Id
+     * </p>
+     */
     public void updateEmployeeRecord() {
         String newName = "";
 	long newMobileNumber = 0;
@@ -243,6 +263,7 @@ public class EmployeeController {
 	    System.out.println("7.Department..");
             int updateChoice = inputObject.nextInt();
             inputObject.nextLine();
+	    logger.debug("Employee Updation started with Choice :" + updateChoice);
             switch(updateChoice) {
                 case 1:
                     System.out.println("Enter New Name :");
@@ -287,88 +308,60 @@ public class EmployeeController {
                 }	
                 employeeService.updateRecord(employee);
         } catch (EmployeeException e) {
-            System.out.println("An error occurred while updating the employee record: " 
+            logger.error("An error occurred while updating the employee record: " 
 				+ e.getMessage());
         }
     }
 
     /**
-    * This method to Delete an Employee Record in the Database
-    * with the Employee Id
-    */
+     * <p>
+     * This method to Delete an Employee Record in the Database
+     * with the Employee Id 
+     * </p>
+     */
     public void deleteEmployeeRecord() {
 	int deleteId = 0;
         try {
             System.out.println("Enter Employee Id to Delete records :");
             deleteId = inputObject.nextInt();
             employeeService.deleteRecord(deleteId);
+	    logger.info("Employee with This id Deleted Successfully : " + deleteId);
         } catch (EmployeeException e) {
-            System.out.println("An error occurred while deleting the employee record: " + deleteId 
+            logger.error("An error occurred while deleting the employee record: " + deleteId 
 				+ e.getMessage());
         }
     }
 
-    /**
-    * This method is add Mentor to the mentor table in the 
-    * Database
-    */
-    public void addMentor() {
-        int mentorId = 0;
-	Mentor mentor = null;
-        try {
-            if (mentorService.getMentors().size() == 0) {
-                System.out.println("No Mentors found !");
-                System.out.println("Add an Mentor first...");
-            } else { 
-                System.out.println("Enter Employee Id : ");
-                int employeeId = inputObject.nextInt();
-                Employee employee = employeeService.getEmployeeById(employeeId);		
-                if (employee != null) { 
-                    System.out.println("Available Mentors : ");
-                    mentorController.displayMentors();
-                    System.out.println("Enter the Mentor Id : ");
-                    mentorId = inputObject.nextInt();
-                    mentor = mentorService.getMentor(mentorId);
-                } else {
-                    System.out.println("Employee not found..");
-                }
-                if (mentorService.getMentors().containsKey(mentorId)) {
-                    mentorService.addEmployee(mentor, employee);
-                } else {
-                    System.out.println("Enter valid input..");
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("An error occurred while adding a mentor: " + e.getMessage());
-        }
-    }
-
     /** 
-    * This method is assign the Employee record to the
-    * Mentor in the List
-    */
+     *<p>
+     * This method is assign the Employee record to the
+     * Mentor in the List
+     * </p>
+     */
     public void assignEmployeeToMentor() {
 	int employeeId = 0;
 	try {
             System.out.println("Enter Employee Id :");
             employeeId = inputObject.nextInt();
-            mentorController.displayMentors();
+            for (Map.Entry<Integer, Mentor> e : mentorService.getMentors().entrySet()) {
+                System.out.println(e.getKey() + "." + e.getValue().getMentorName());
+            }
             System.out.println("Enter Mentor Id :");
             int mentorId = inputObject.nextInt();
             Employee employee = employeeService.getEmployeeById(employeeId);
                 if (employee.getEmployeeId() == employeeId) {
                     Mentor mentor = mentorService.getMentor(mentorId);
 		    if (null == mentor) {
-			System.out.println("Mentor not Found..");
+			logger.info("Mentor not Found with this Id : " + mentorId);
 		    } else {
 			mentorService.addEmployee(mentor, employee);
-		    	System.out.println("Mentor Assigned Successfully..");
+		    	logger.info(mentor.getMentorName() + " Mentor Assigned Successfully..");
 		    }
                 } else {
-		    System.out.println("Employee Data not found..");
+		    logger.info("Employee Data not found with this Id : " + employeeId);
 		}
         } catch (EmployeeException e) {
-            System.out.println("An error occurred while assigning an employee: Id : " 
+            logger.error("An error occurred while assigning an employee: Id : " 
 		+ employeeId + e.getMessage());
         }
     }

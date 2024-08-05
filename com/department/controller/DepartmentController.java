@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.department.service.DepartmentService;
 import com.department.service.DepartmentServiceImpl;
 import com.employee.service.EmployeeServiceImpl;
@@ -14,39 +17,46 @@ import com.model.Department;
 import com.customexception.EmployeeException;
 
 /**
-* <p>This class is the Controller of Department for
-* Add departments to the Repository 
-* Display list of the departments in the Repository
-* Delete Departments in the Repository</p>
-* @author Aravind
-*/
+ *<p>
+ *This class is the Controller of Department for
+ * Add departments to the Repository 
+ * Display list of the departments in the Repository
+ * Delete Departments in the Repository
+ *</p>
+ * @author Aravind
+ */
 public class DepartmentController {
-    DepartmentService departmentService = new DepartmentServiceImpl();
-    EmployeeService employeeService = new EmployeeServiceImpl();
-    Scanner inputObject = new Scanner(System.in);
+    private DepartmentService departmentService = new DepartmentServiceImpl();
+    private EmployeeService employeeService = new EmployeeServiceImpl();
+    private static Logger logger = LogManager.getLogger();
+    private Scanner inputObject = new Scanner(System.in);
 
     /** 
-    * This method add department to Department
-    * Warehouse
-    */
+     * <p>
+     * This method add department to Department
+     * Department Database
+     * </p>
+     */
     public void addDepartment() {
 	String departmentName = "";
         try {
 	    System.out.println("Enter Department to Add:");
 	    departmentName = inputObject.nextLine();
-	    departmentService.addEmployeeDepartment(departmentName);
-	    System.out.println("Department Added..");
+	    departmentService.addDepartment(departmentName);
+	    logger.info(departmentName + " Department Added..");
         }
 	catch (EmployeeException e) {
-	    System.out.println("Unable to Add Department to Department Repository.." 
+	    logger.error("Unable to Add Department to Department Repository.." 
 			      + departmentName + e.getMessage());
         }
     }
 
     /** 
-    * This method to delete a department 
-    * in the Department Warehouse
-    */
+     * <p>
+     * This method to delete a department 
+     * in the Department Database
+     * </p>
+     */
     public void deleteDepartment() {
 	int departmentId = 0;
 	try {
@@ -57,16 +67,21 @@ public class DepartmentController {
 	    System.out.println("Enter Department Id to Delete : ");
 	    departmentId = inputObject.nextInt();
 	    departmentService.deleteDepartment(departmentId);
+	    logger.info("Department Deleted with This id : " + departmentId);
         }
 	catch (EmployeeException e) {
-	    System.out.println("Unable to delete This Department :" + departmentId + e.getMessage());
+	    logger.error("Unable to delete This Department :" + departmentId + e.getMessage());
         }
     }
 
     /**
-    * This method display the departments in the department 
-    * Warehosuse of Repository
-    */
+     * <p>
+     * This method display the departments in the
+     * Department Database
+     * </p>
+     * 
+     * @return Department Choice get from the user
+     */
     public int listDepartments() {
         int chosenDepartment = 0;
         try {
@@ -84,26 +99,43 @@ public class DepartmentController {
                 }
 	    }
         } catch (EmployeeException e) {
-            System.out.println("Unable to List Department List..");
+            logger.error("Unable to List Department List..");
             inputObject.next();
         }
         return chosenDepartment;
     }
 
-    /** This method gets department Id from the user
-    * and return the id
-    */
+    /** 
+     * <p>
+     * This method gets department Id from the user
+     * and return the id
+     * </p>
+     * 
+     * @return Department id get from the user
+     */
     public int readDepartmentId() {
-        departmentService.printDepartments();
-        System.out.print("Enter Department Id: ");
-        int departmentInputId = inputObject.nextInt();
+        int departmentInputId = 0;
+        try {
+	    for(Map.Entry<Integer, Department> e : 
+                    departmentService.getDepartments().entrySet()) {
+                System.out.println(e.getKey() + "." + e.getValue().getDepartmentName());
+            }
+            System.out.print("Enter Department Id: ");
+            departmentInputId = inputObject.nextInt();
+        } catch (EmployeeException e) {
+	    logger.error("Unable to Read Department Id..");
+        }
 	return departmentInputId;
     }
  
     /** 
-    * This method get the Department from the 
-    * user.
-    */
+     * <p>
+     * This method get the Department from the 
+     * user.
+     * </p>
+     * 
+     * @return Department Id
+     */
     public int readDepartment() {
         System.out.println("Enter Department : ");
         int departmentId = listDepartments();
@@ -111,9 +143,11 @@ public class DepartmentController {
     } 
 
     /** 
-    * This method display the employees in the
-    * specific Department
-    */
+     * <p>
+     * This method display the employees in the
+     * specific Department
+     * </p>
+     */
     public void displayDepartmentEmployees() {
  	try {
 	    int departmentIdValue = readDepartmentId();
@@ -143,13 +177,15 @@ public class DepartmentController {
 		}
             }
         } catch (EmployeeException e) {
-	    System.out.println("An Error Occured while Display Department Employees.." + e.getMessage());
+	    logger.error("An Error Occured while Display Department Employees.." + e.getMessage());
         }
     }
 
     /**
-    * This method to Update an Department Name with id
-    */
+     * <p>
+     * This method to Update an Department Name with id
+     * </p>
+     */
     public void updateDepartment() {
 	try {
 	    System.out.println("Enter Department Id to Update :");
@@ -161,7 +197,7 @@ public class DepartmentController {
 	    department.setDepartmentName(departmentName);	
 	    departmentService.updateDepartmentRecord(department);
 	} catch (EmployeeException e) {
-	    System.out.println("Unable to Update Department Name :" + e.getMessage());
+	    logger.error("Unable to Update Department Name :" + e.getMessage());
         }
     }
 }

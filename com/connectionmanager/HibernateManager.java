@@ -5,8 +5,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 /**
-* This class make a session for Hibernate Connection
-*/
+ * <p>
+ * This class make a session for Hibernate Connection
+ * </p> 
+ * @author Aravind
+ */
 public class HibernateManager {
     private static SessionFactory factory = null; 
 
@@ -20,8 +23,12 @@ public class HibernateManager {
     }
 
     /**
-    * This method return the factory from the Configuration from Session Factory
-    */
+     * <p>
+     * This method return the factory from the Configuration from Session Factory
+     * </p>
+     * @return Session Factory to the Dao 
+     * 
+     */
     public static SessionFactory getFactory() { 
        return factory;
     }  

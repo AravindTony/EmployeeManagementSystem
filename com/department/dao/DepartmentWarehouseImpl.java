@@ -21,11 +21,13 @@ import com.model.Department;
 import com.department.dao.DepartmentWarehouseImpl;
 
 /**
-* <p>This Class is a Dao for Department handles the Operations
-* like Insertion, Updation, Retrieving, Deletion for the Department Information
-* From the Database. </p>
-* @author Aravind
-*/
+ * <p>
+ * This Class is a Dao for Department handles the Operations
+ * like Insertion, Updation, Retrieving, Deletion for the Department Information
+ * From the Database. 
+ * </p>
+ * @author Aravind
+ */
 public class DepartmentWarehouseImpl implements DepartmentWarehouse {
  
     @Override
@@ -38,12 +40,14 @@ public class DepartmentWarehouseImpl implements DepartmentWarehouse {
             Integer id = (Integer) session.save(department);
             transaction.commit();
         } catch (HibernateException e) {
-            if(transaction != null) {
+            if(null != transaction) {
                 transaction.rollback();
             }
             throw new EmployeeException("Error while adding department of name : " + departmentName, e);
         } finally {
-            session.close();
+            if (null != session) {
+                session.close();
+	    }
         }    
     }
 
@@ -60,12 +64,14 @@ public class DepartmentWarehouseImpl implements DepartmentWarehouse {
                 departments.put(department.getDepartmentId(), department);
             }
         } catch (HibernateException e) {
-            if(transaction != null) {
+            if(null != transaction) {
                 transaction.rollback();
             }
             throw new EmployeeException("Error while fetching available departments : ", e);
         } finally {
-            session.close();
+            if (null != session) {
+                session.close();
+	    }
         }
         return departments;
     }
@@ -80,12 +86,14 @@ public class DepartmentWarehouseImpl implements DepartmentWarehouse {
             department = session.get(Department.class, departmentId);
             transaction.commit();
         } catch (HibernateException e) {
-            if(transaction != null) {
+            if(null != transaction) {
                 transaction.rollback();
             }
             throw new EmployeeException("Error while fetching department of id : " + departmentId, e);
         } finally {
-            session.close();
+            if (null != session) {
+                session.close();
+	    }
         } 
         return department;
     }
@@ -97,18 +105,20 @@ public class DepartmentWarehouseImpl implements DepartmentWarehouse {
         try {
             transaction = session.beginTransaction();
             Department department = session.get(Department.class, departmentId);
-            if (department != null) {
+            if (null != department) {
                 Hibernate.initialize(department.getEmployees());
                 employees = department.getEmployees();
             }
             transaction.commit();            
         } catch (HibernateException e) {
-            if(transaction != null) {
+            if(null != transaction) {
                 transaction.rollback();
             }
             throw new EmployeeException("Error while fetching employees of Department Id : " + departmentId, e);
         } finally {
-            session.close();
+            if (null != session) {
+                session.close();
+	    }
         }
         return employees;
     }
@@ -124,13 +134,14 @@ public class DepartmentWarehouseImpl implements DepartmentWarehouse {
             query.executeUpdate();          
             transaction.commit();
         } catch (HibernateException e) {
-            
-            if(transaction != null) {
+            if(null != transaction) {
                 transaction.rollback();
             }
             throw new EmployeeException("Error while deleting department of id : " + departmentId, e);
         } finally {
-            session.close();
+            if (null != session) {
+                session.close();
+	    }
         }
     }	
 
@@ -143,12 +154,14 @@ public class DepartmentWarehouseImpl implements DepartmentWarehouse {
             session.saveOrUpdate(department);
             transaction.commit();
         } catch (HibernateException e) {
-            if(transaction != null) {
+            if(null != transaction) {
                 transaction.rollback();
             }
             throw new EmployeeException("Error while updating department of ID : " + department.getDepartmentId(), e);
         } finally {
-            session.close();
+            if (null != session) {
+                session.close();
+	    }
         }
     }
 }

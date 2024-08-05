@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.mentor.service.MentorService;
 import com.employee.service.EmployeeService;
@@ -13,19 +15,25 @@ import com.customexception.EmployeeException;
 import com.mentor.service.MentorServiceImpl;
 
 /** 
-* This class used to get inputs and display
-* the information about the Mentor
-* like Mentor name and Id
-* @author Aravind
-*/
+ * <p>
+ * This class used to get inputs and display
+ * the information about the Mentor
+ * like Mentor name and Id 
+ * </p>
+ * @author Aravind
+ */
 public class MentorController {
-    MentorService mentorService = new MentorServiceImpl();
-    Scanner inputObject = new Scanner(System.in);
+    private MentorService mentorService = new MentorServiceImpl();
+    private static Logger logger = LogManager.getLogger();
+    private Scanner inputObject = new Scanner(System.in);
 
-    /** This Method is to get the Choice of Mentor Services
-    * 1. Add the Mentor to the Database
-    * 2. Display the Employees by the Mentor 
-    */
+    /** 
+     * <p>
+     * This Method is to get the Choice of Mentor Services
+     * 1. Add the Mentor to the Database
+     * 2. Display the Employees by the Mentor 
+     * </p>
+     */
     public void getDetails() {
 	int userChoice = 0;
         try {
@@ -40,7 +48,7 @@ public class MentorController {
 		    String name = inputObject.nextLine();
 		    try {
 			mentorService.addMentor(name);
-		        System.out.println("Mentor Added Successfully..");
+			logger.info(name + "Mentor added Successfully..");
 		        break;
 		    }
 	            catch (EmployeeException e) {
@@ -108,8 +116,10 @@ public class MentorController {
     }
     
     /** 
-    * This method display the mentors in the HashMap Object
-    */
+     * <p>
+     * This method display the mentors in the HashMap Object
+     * </p>
+     */
     public void displayMentors() {	
         try {
 	    for (Map.Entry<Integer, Mentor> e : mentorService.getMentors().entrySet()) {

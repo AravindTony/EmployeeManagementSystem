@@ -9,6 +9,9 @@ import org.hibernate.query.Query;
 import org.hibernate.Session; 
 import org.hibernate.Transaction;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.model.Employee;
 import com.model.Mentor;
 import com.model.Department;
@@ -16,11 +19,14 @@ import com.customexception.EmployeeException;
 import com.connectionmanager.HibernateManager;
 
 /** 
-* <p>This class handles all the Database Operations like
-* Insertion, Display the Records, Update and Delete the Records</p>
-* @author Aravind
-*/
+ * <p>
+ * This class handles all the Database Operations like
+ * Insertion, Display the Records, Update and Delete the Records
+ * </p>
+ * @author Aravind
+ */
 public class EmployeeDaoImpl implements EmployeeDao {
+    private static Logger logger = LogManager.getLogger();
 
     @Override
     public List<Employee> getRecords() throws EmployeeException {
@@ -34,12 +40,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
             employeeRecords = query.list();                                   
             transaction.commit();      
         } catch (HibernateException e) {
-            if(transaction != null) {
+            if(null != transaction) {
                 transaction.rollback();
             }
+            logger.error("Error while get Employee Records..");
             throw new EmployeeException("Error while get All employee records..", e);
         } finally {
-            session.close();
+	    if (null != session) {
+                session.close();
+	    }
         }  
         return employeeRecords;
     }
@@ -53,12 +62,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
             Integer id = (Integer) session.save(employee);
             transaction.commit();
         } catch (HibernateException e) {
-            if(transaction != null) {
+            if(null != transaction) {
                 transaction.rollback();
             }
-            throw new EmployeeException("Error while adding employee of name : " + employee.getEmployeeName(), e);
+            logger.error("Error occured while Adding this Employee :" + employee.getEmployeeName());
+            throw new EmployeeException("Error occured while adding employee of name : " + employee.getEmployeeName(), e);
         } finally {
-            session.close();
+            if (null != session) {
+                session.close();
+	    }
         }
 	return employee;
     }
@@ -72,12 +84,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
             session.saveOrUpdate(employee);
             transaction.commit();
         } catch (HibernateException e) {
-            if(transaction != null) {
+            if(null != transaction) {
                 transaction.rollback();
             }
+            logger.error("Error while updating with Employee :" + employee.getEmployeeName());
             throw new EmployeeException("Error while updating employee of ID : " + employee.getEmployeeId(), e);
         } finally {
-            session.close();
+            if (null != session) {
+                session.close();
+	    }
         }
     }
     
@@ -92,12 +107,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			      .setParameter("employeeId", employeeId).uniqueResult();
             transaction.commit();
         } catch (HibernateException e) {
-            if(transaction != null) {
+            if(null != transaction) {
                 transaction.rollback();
             }
+	    logger.error("Error while get Employee by this Id: " + employeeId);
             throw new EmployeeException("Error while getting employee of Id : " + employeeId, e);
         } finally {
-            session.close();
+            if (null != session) {
+                session.close();
+	    }
         }
         return employee;
     }
@@ -115,12 +133,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
             query.executeUpdate();
             transaction.commit();
         } catch (HibernateException e) {
-            if(transaction != null) {
+            if(null != transaction) {
                 transaction.rollback();
             }
-            throw new EmployeeException("Error while deleting employee of id : " + deleteId, e);
+	    logger.error("Error while deleting employee with this Id :" + deleteId);
+            throw new EmployeeException("Error while deleting employee of Id : " + deleteId, e);
         } finally {
-            session.close();
+            if (null != session) {
+                session.close();
+	    }
         }
     }
 }
