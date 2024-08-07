@@ -1,13 +1,6 @@
 package com.ideas2it.department.dao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.PreparedStatement;
 
 import com.ideas2it.customexception.EmployeeException;
 import com.ideas2it.model.Department;
@@ -29,9 +22,9 @@ public interface DepartmentWarehouse {
      * </p>
      * @param departmentName is the Name of Department
      *
-     * @throws Employee Exception while Inserting the Department
+     * @throws EmployeeException while Inserting the Department
      */
-    public void insertDepartment(String departmentName) throws EmployeeException;
+    void insertDepartment(String departmentName) throws EmployeeException;
 
     /** 
      * <p>
@@ -42,36 +35,36 @@ public interface DepartmentWarehouse {
      *
      * @throws EmployeeException while get Departments 
      */
-    public Map<Integer, Department> getEmployeeDepartments() throws EmployeeException;
+    Map<Integer, Department> getEmployeeDepartments() throws EmployeeException;
 
     /** 
      * <p>
      * This method display the specific Department using 
      * the id given by user..
      * </p>
-     * @param departmentId department Id used to get Particular Department
+     * @param departmentId - used to get Particular Department
      * 
-     * @return Department Object by department Id
+     * @return Department Object by departmentId
      * 
      * @throws EmployeeException while get Department Object with Department id
      */
-    public Department getDepartmentObject(int departmentId) throws EmployeeException;
+    Department getDepartmentObject(int departmentId) throws EmployeeException;
 
     /**
      * <p>
      * This method Delete the Department with the Department Id
      * </p>
-     * @param departmentId - Id of the Department
+     * @param departmentId - ID of the Department
      * 
      * @throws EmployeeException while delete the Department with the Department id
      */
-    public void deleteDepartment(int departmentId) throws EmployeeException;
+    void deleteDepartment(int departmentId) throws EmployeeException;
 
     /**
      * <p>
      * This method Update the Department Name with Department Object
      * </p>
-     * @param Department - Department as the Object
+     * @param department - Department as the Object
      */
-    public void updateDepartmentName(Department department) throws EmployeeException;
+    void updateDepartmentName(Department department) throws EmployeeException;
 }

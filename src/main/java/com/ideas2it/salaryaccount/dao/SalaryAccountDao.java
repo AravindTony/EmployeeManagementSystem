@@ -14,5 +14,5 @@ public interface SalaryAccountDao {
     * 
     * @param account - Salary Account details as the Object
     */
-    public void insertSalaryAccount(SalaryAccount account);
+    void insertSalaryAccount(SalaryAccount account);
 }

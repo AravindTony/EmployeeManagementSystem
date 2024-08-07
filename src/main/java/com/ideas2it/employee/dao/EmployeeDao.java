@@ -1,12 +1,9 @@
 package com.ideas2it.employee.dao;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
 
 import com.ideas2it.model.Employee;
-import com.ideas2it.model.Mentor;
-import com.ideas2it.model.Department;
+
 import com.ideas2it.customexception.EmployeeException;
 
 /** 
@@ -17,7 +14,6 @@ import com.ideas2it.customexception.EmployeeException;
  * @author Aravind
  */
 public interface EmployeeDao {
-
     /** 
      * <p>
      * This method return the employee Records to the 
@@ -27,42 +23,28 @@ public interface EmployeeDao {
      * 
      * @throws EmployeeException while get all the Records
      */
-    public List<Employee> getRecords() throws EmployeeException;
+    List<Employee> getRecords() throws EmployeeException;
 
     /** 
      * <p>
      * This method insert the Data to the Database
      * </p>
-     * @param employeeName - Name of the Employee
-     * @param mobile - Mobile Number of the Employee
-     * @param departmentId - Id of the Department
-     * @param qualification - Qualification of the Employee
-     * @param experience - Total Experience of the Employee
-     * @param employeeEmail - Email id of the Employee
-     * @param departmentName - Name of the Department as the Object
+     * @param employee - Employee as Object
      * 
-     * @return boolean value - Inserted Successfully or not..
+     * @return boolean value - Inserted Successfully or not.
      *
      * @throws EmployeeException while inserting the data to the Database
      */
-    public Employee insertData(Employee employee) throws EmployeeException;
+    Employee insertData(Employee employee) throws EmployeeException;
 
     /** 
      * <p>
      * This method update the Data in the Employee List
      * </p>
-     * @param updateId - Updated id of the Employee
-     * @param updateChoice - User Entered Choice to Update Record
-     * @param newName - Updated Name of the Employee
-     * @param newMobileNumber - Updated Mobile Number of the Employee
-     * @param updatedEmail - Updated Email of the Employee
-     * @param qualificaton - Updated Qualification of the Employee
-     * @param experience - Updated Experience of the Employee
-     * @param updatedDateOfBirth - Updated Date of birth of the Employee
-
+     * @param employee - Employee as Object
      * @throws EmployeeException while Updating the Record
      */
-    public void updateRecord(Employee employee) throws EmployeeException;
+    void updateRecord(Employee employee) throws EmployeeException;
  
     /**
      * <p>
@@ -73,17 +55,17 @@ public interface EmployeeDao {
      *
      * @throws EmployeeException while Deleting the Record
      */
-    public void deleteRecord(int deleteId) throws EmployeeException;
+    void deleteRecord(int deleteId) throws EmployeeException;
 
     /**
      * <p>
      * This method return the Employee by id
      * </p>
-     * @param employeeId - Id of the Employee
+     * @param employeeId - ID of the Employee
      * 
      * @return Employee - as the Object
      * 
      * @throws EmployeeException - While getting Employee by id
      */
-    public Employee getEmployeeById(int employeeId) throws EmployeeException;
+    Employee getEmployeeById(int employeeId) throws EmployeeException;
 }

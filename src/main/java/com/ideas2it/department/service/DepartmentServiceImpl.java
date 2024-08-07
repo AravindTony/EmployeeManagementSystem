@@ -23,7 +23,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Map<Integer, Department> getDepartments() throws EmployeeException {
-	return departmentWarehouse.getEmployeeDepartments();
+	    return departmentWarehouse.getEmployeeDepartments();
     }   
 
     @Override
@@ -38,16 +38,16 @@ public class DepartmentServiceImpl implements DepartmentService {
     
     @Override
     public void deleteDepartment(int id) throws EmployeeException {
- 	departmentWarehouse.deleteDepartment(id);
+ 	    departmentWarehouse.deleteDepartment(id);
     }
 
     @Override
     public Department getDepartmentObject(int departmentId) throws EmployeeException {
-	return departmentWarehouse.getDepartmentObject(departmentId);
+	    return departmentWarehouse.getDepartmentObject(departmentId);
     }
 
     @Override
     public void updateDepartmentRecord(Department department) throws EmployeeException {
-	departmentWarehouse.updateDepartmentName(department);
+	    departmentWarehouse.updateDepartmentName(department);
     } 
 }

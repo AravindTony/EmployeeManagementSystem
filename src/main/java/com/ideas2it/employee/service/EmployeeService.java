@@ -5,7 +5,6 @@ import java.util.Map;
 import java.time.LocalDate;
 
 import com.ideas2it.customexception.EmployeeException;
-import com.ideas2it.model.Mentor;
 import com.ideas2it.model.Employee;
 import com.ideas2it.model.Department;
 
@@ -24,17 +23,17 @@ public interface EmployeeService {
      *
      * @return Employee - List of Employees
      */
-    public List<Employee> getEmployeeDetails() throws EmployeeException;
+    List<Employee> getEmployeeDetails() throws EmployeeException;
  
     /**
      * <p>
      * This method get the Department Object using the Id
      * </p>
-     * @param departmentId - Id of the Department
+     * @param departmentId - ID of the Department
      *
-     * @return Department Object by the Id
+     * @return Department Object by the ID
      */
-    public Department getDepartmentObj(int departmentId) throws EmployeeException;
+    Department getDepartmentObj(int departmentId) throws EmployeeException;
 
     /** 
      * <p>
@@ -43,9 +42,9 @@ public interface EmployeeService {
      * </p>
      * @return Employee as the Object
      *
-     * @throws Employee Exception while adding the Data to the Database
+     * @throws EmployeeException while adding the Data to the Database
      */
-    public Employee addData(String employeeName, LocalDate dateOfBirth, long mobile, int departmentId, String qualification, 
+    Employee addData(String employeeName, LocalDate dateOfBirth, long mobile, int departmentId, String qualification,
 			int experience, String employeeEmail, String bankName, long accountNumber) throws EmployeeException;
 
     /**
@@ -53,9 +52,9 @@ public interface EmployeeService {
      * This method update the records in the Employee List based
      * on the User Choice
      * </p>
-     * @throws Employee Exception while Update the Data in the Database
+     * @throws EmployeeException while Update the Data in the Database
      */
-    public void updateRecord(Employee employee) throws EmployeeException;
+    void updateRecord(Employee employee) throws EmployeeException;
 
     /**
      * <p>
@@ -64,9 +63,9 @@ public interface EmployeeService {
      * </p>
      * @param deleteId is used to match the id from the List 
      *
-     * @throws Employee Exception while Delete the Data in the Database
+     * @throws EmployeeException while Delete the Data in the Database
      */ 
-    public void deleteRecord(int deleteId) throws EmployeeException;
+    void deleteRecord(int deleteId) throws EmployeeException;
 
     /**
      * <p>
@@ -74,7 +73,7 @@ public interface EmployeeService {
      * Department Repository
      * </p>
      */
-    public void getDepartments() throws EmployeeException;
+    void getDepartments() throws EmployeeException;
 
     /**
      * <p>
@@ -82,7 +81,7 @@ public interface EmployeeService {
      * </p>
      * @return Employee Departments
      */
-    public Map<Integer, Department> getEmployeeDepartments() throws EmployeeException;
+    Map<Integer, Department> getEmployeeDepartments() throws EmployeeException;
 
     /** 
      * <p>
@@ -90,7 +89,7 @@ public interface EmployeeService {
      * </p>
      * @return Employee Record
      *
-     * @throws Employee Exception while getting Employee by Id
+     * @throws EmployeeException while getting Employee by ID
      */
-    public Employee getEmployeeById(int id) throws EmployeeException;
+    Employee getEmployeeById(int id) throws EmployeeException;
 }

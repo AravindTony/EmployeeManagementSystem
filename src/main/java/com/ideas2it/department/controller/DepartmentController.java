@@ -10,8 +10,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.ideas2it.department.service.DepartmentService;
 import com.ideas2it.department.service.DepartmentServiceImpl;
-import com.ideas2it.employee.service.EmployeeServiceImpl;
-import com.ideas2it.employee.service.EmployeeService;
 import com.ideas2it.model.Employee;
 import com.ideas2it.model.Department;
 import com.ideas2it.customexception.EmployeeException;
@@ -26,10 +24,9 @@ import com.ideas2it.customexception.EmployeeException;
  * @author Aravind
  */
 public class DepartmentController {
-    private DepartmentService departmentService = new DepartmentServiceImpl();
-    private EmployeeService employeeService = new EmployeeServiceImpl();
-    private static Logger logger = LogManager.getLogger();
-    private Scanner inputObject = new Scanner(System.in);
+    private final DepartmentService departmentService = new DepartmentServiceImpl();
+    private static final Logger logger = LogManager.getLogger();
+    private final Scanner inputObject = new Scanner(System.in);
 
     /** 
      * <p>
@@ -43,11 +40,10 @@ public class DepartmentController {
 	    System.out.println("Enter Department to Add:");
 	    departmentName = inputObject.nextLine();
 	    departmentService.addDepartment(departmentName);
-	    logger.info(departmentName + " Department Added..");
+            logger.info("{} Department Added..", departmentName);
         }
 	catch (EmployeeException e) {
-	    logger.error("Unable to Add Department to Department Repository.." 
-			      + departmentName + e.getMessage());
+        logger.error("Unable to Add Department to Department Repository..{}{}", departmentName, e.getMessage());
         }
     }
 
@@ -67,42 +63,11 @@ public class DepartmentController {
 	    System.out.println("Enter Department Id to Delete : ");
 	    departmentId = inputObject.nextInt();
 	    departmentService.deleteDepartment(departmentId);
-	    logger.info("Department Deleted with This id : " + departmentId);
+        logger.info("Department Deleted with This id : {}", departmentId);
         }
 	catch (EmployeeException e) {
-	    logger.error("Unable to delete This Department :" + departmentId + e.getMessage());
+        logger.error("Unable to delete This Department :{}{}", departmentId, e.getMessage());
         }
-    }
-
-    /**
-     * <p>
-     * This method display the departments in the
-     * Department Database
-     * </p>
-     * 
-     * @return Department Choice get from the user
-     */
-    public int listDepartments() {
-        int chosenDepartment = 0;
-        try {
-            Map<Integer, Department> employeeDepartments = departmentService.getDepartments();
-            boolean isValidInput = false;
-            while(!isValidInput) {
-                System.out.print("Enter choice : ");
-                int userUpdationChoice = inputObject.nextInt();
-                isValidInput = true;   
-                if (employeeDepartments.containsKey(userUpdationChoice)) {
-                    chosenDepartment = userUpdationChoice;
-                } else {
-                    System.out.println("Enter Valid option...!");
-                    return listDepartments();
-                }
-	    }
-        } catch (EmployeeException e) {
-            logger.error("Unable to List Department List..");
-            inputObject.next();
-        }
-        return chosenDepartment;
     }
 
     /** 
@@ -127,20 +92,6 @@ public class DepartmentController {
         }
 	return departmentInputId;
     }
- 
-    /** 
-     * <p>
-     * This method get the Department from the 
-     * user.
-     * </p>
-     * 
-     * @return Department Id
-     */
-    public int readDepartment() {
-        System.out.println("Enter Department : ");
-        int departmentId = listDepartments();
-        return departmentId;
-    } 
 
     /** 
      * <p>
@@ -162,7 +113,7 @@ public class DepartmentController {
 			      + "--------------------------------------");
             List<Employee> employees = new ArrayList<>(department.getEmployees());
 	    for (Employee employee : employees) {
-                if (employee.isDeleted == false) {
+                if (!employee.isDeleted) {
 		    System.out.format(format, employee.getEmployeeId()
 		     	         , employee.getEmployeeName()
 			         , employee.getDepartment().getDepartmentName()
@@ -177,7 +128,7 @@ public class DepartmentController {
 		}
             }
         } catch (EmployeeException e) {
-	    logger.error("An Error Occured while Display Department Employees.." + e.getMessage());
+        logger.error("An Error Occurred while Display Department Employees..{}", e.getMessage());
         }
     }
 
@@ -197,7 +148,7 @@ public class DepartmentController {
 	    department.setDepartmentName(departmentName);	
 	    departmentService.updateDepartmentRecord(department);
 	} catch (EmployeeException e) {
-	    logger.error("Unable to Update Department Name :" + e.getMessage());
+        logger.error("Unable to Update Department Name :{}", e.getMessage());
         }
     }
 }

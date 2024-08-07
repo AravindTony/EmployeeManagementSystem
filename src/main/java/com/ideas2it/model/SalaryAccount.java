@@ -7,10 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
-import com.ideas2it.model.Employee;
 
 /** 
 * This class is used to get and set the 

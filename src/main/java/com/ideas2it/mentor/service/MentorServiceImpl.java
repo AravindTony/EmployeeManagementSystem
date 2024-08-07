@@ -1,6 +1,5 @@
 package com.ideas2it.mentor.service;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -8,7 +7,6 @@ import com.ideas2it.mentor.dao.MentorDao;
 import com.ideas2it.model.Mentor;
 import com.ideas2it.model.Employee;
 import com.ideas2it.customexception.EmployeeException;
-import com.ideas2it.mentor.service.MentorService;
 import com.ideas2it.mentor.dao.MentorDaoImpl;
 
 /** 
@@ -43,11 +41,11 @@ public class MentorServiceImpl implements MentorService {
     
     @Override
     public Set<Employee> getEmployeesByMentor(int mentorId) throws EmployeeException {
-	return mentorDao.getEmployeesByMentor(mentorId);
+	    return mentorDao.getEmployeesByMentor(mentorId);
     }
 
     @Override 
     public void deleteMentor(int mentorId) throws EmployeeException {
-	mentorDao.deleteMentor(mentorId);
+	    mentorDao.deleteMentor(mentorId);
     }
 }

@@ -3,8 +3,6 @@ package com.ideas2it.util;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-import com.ideas2it.employee.controller.EmployeeController;
-
 /**
  * <p>
  * This class handles all the validations of the Employee like 
@@ -46,10 +44,7 @@ public class Validator {
      * </p>
      */
     public static boolean isValidName(String employeeName) {
-        if (employeeName.matches("[a-zA-Z\\s]+")) {
-            return true;
-        }
-        return false;
+        return employeeName.matches("[a-zA-Z\\s]+");
     }
 
     /** 
@@ -61,9 +56,6 @@ public class Validator {
      * </p>
      */
     public static boolean validateMobile(long mobileNumber) {
-        if(Long.toString(mobileNumber).length() == 10) {
-            return true;
-        }
-	return false;
+        return Long.toString(mobileNumber).length() == 10;
     }
 }

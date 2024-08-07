@@ -15,5 +15,5 @@ public interface SalaryAccountService {
      * @param account - Salary Account as Object
      *
      */
-    public void addSalaryAccount(SalaryAccount account);
+    void addSalaryAccount(SalaryAccount account);
 }

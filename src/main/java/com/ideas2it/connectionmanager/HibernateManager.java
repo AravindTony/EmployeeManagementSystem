@@ -1,6 +1,5 @@
 package com.ideas2it.connectionmanager;
 
-import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -11,7 +10,7 @@ import org.hibernate.cfg.Configuration;
  * @author Aravind
  */
 public class HibernateManager {
-    private static SessionFactory factory = null; 
+    private static final SessionFactory factory;
 
     static {
         try {

@@ -1,11 +1,8 @@
 package com.ideas2it.employee.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.time.Period;
 
 import com.ideas2it.employee.dao.EmployeeDao;
 import com.ideas2it.department.service.DepartmentService;
@@ -32,27 +29,27 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> getEmployeeDetails() throws EmployeeException {
-	return employeeDao.getRecords();
+	    return employeeDao.getRecords();
     }
 
     @Override
     public Department getDepartmentObj(int departmentId) throws EmployeeException {
-	return departmentService.getDepartmentObject(departmentId);
+	    return departmentService.getDepartmentObject(departmentId);
     }
 
     @Override
     public Employee addData(String employeeName, LocalDate dateOfBirth, long mobile, int departmentId, String qualification, 
 			int experience, String employeeEmail, String bankName, long accountNumber) throws EmployeeException {
         Department department = getDepartmentObj(departmentId);
-	SalaryAccount account = new SalaryAccount(bankName, accountNumber);
-	salaryAccountService.addSalaryAccount(account);
-	Employee employee = new Employee(employeeName, department, dateOfBirth, mobile, employeeEmail, qualification, experience, account);
+        SalaryAccount account = new SalaryAccount(bankName, accountNumber);
+        salaryAccountService.addSalaryAccount(account);
+        Employee employee = new Employee(employeeName, department, dateOfBirth, mobile, employeeEmail, qualification, experience, account);
         return employeeDao.insertData(employee);
     }
 
     @Override
     public void updateRecord(Employee employee) throws EmployeeException {
-	employeeDao.updateRecord(employee);
+	    employeeDao.updateRecord(employee);
     }
 
     @Override
@@ -62,12 +59,12 @@ public class EmployeeServiceImpl implements EmployeeService {
      
     @Override
     public void getDepartments() throws EmployeeException {
-	departmentService.getDepartments();
+	    departmentService.getDepartments();
     }
 
     @Override
     public Map<Integer, Department> getEmployeeDepartments() throws EmployeeException {
-	return departmentService.getDepartments();
+	    return departmentService.getDepartments();
     }
 
     @Override

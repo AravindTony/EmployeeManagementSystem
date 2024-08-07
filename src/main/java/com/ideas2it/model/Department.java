@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.OneToMany;
 
-import com.ideas2it.model.Employee;
-
 /** 
 * This class is used to get and set the 
 * information about the Department like

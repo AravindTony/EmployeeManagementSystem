@@ -17,10 +17,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import com.ideas2it.model.Department;
-import com.ideas2it.model.Mentor;
-import com.ideas2it.model.SalaryAccount;
-
 /**
 * <p>This class is used to get and set the 
 * Employee credentials like Employee Id
@@ -80,7 +76,7 @@ public class Employee {
     * @param employeeName - Name of the Employee
     * @param dateOfBirth - Date of Birth of the Employee
     * @param mobileNumber - Mobile Number of the Employee
-    * @param employeeEmail - Email Id of the Employee
+    * @param employeeEmail - EmailId of the Employee
     * @param qualification - Qualification of the Employee
     * @param experience - Experience of the Employee Totally
     * @param department - Department as an Object
@@ -89,24 +85,24 @@ public class Employee {
     public Employee(String employeeName, Department department,            
 	    LocalDate dateOfBirth, long mobileNumber, String employeeEmail, 
 	    String qualification, int experience, SalaryAccount account) {
-	this.employeeName = employeeName;
+	    this.employeeName = employeeName;
         this.dateOfBirth = dateOfBirth;
         this.mobileNumber = mobileNumber;
-	this.employeeEmail = employeeEmail;
-	this.qualification = qualification;
-	this.experience = experience;
-	this.department = department;
-	this.account = account;
+        this.employeeEmail = employeeEmail;
+        this.qualification = qualification;
+        this.experience = experience;
+        this.department = department;
+        this.account = account;
     }
 
     public Employee() { }
 
     public String getNames() {
         StringBuilder mentorList = new StringBuilder();
-	for (Mentor mentor : mentors) {
-	    mentorList.append(mentor.getMentorName() + ",");
+        for (Mentor mentor : mentors) {
+	        mentorList.append(mentor.getMentorName()).append(",");
         }	
-	return mentorList.toString();
+	    return mentorList.toString();
     }
 
     public Set<Mentor> getMentors() {
@@ -129,9 +125,7 @@ public class Employee {
 	return account;
     }
 
-    public LocalDate getDateOfBirth() {
-	return dateOfBirth;
-    }
+    public LocalDate getDateOfBirth() { return dateOfBirth; }
     
     public long getMobileNumber() {
         return mobileNumber;
@@ -198,9 +192,9 @@ public class Employee {
     }
 
     public int getAge() {
-	if (dateOfBirth != null) {
-	    return Period.between(dateOfBirth, LocalDate.now()).getYears();
-	}
-	return 0;
+	    if (dateOfBirth != null) {
+	        return Period.between(dateOfBirth, LocalDate.now()).getYears();
+	    }
+	    return 0;
     }
 }

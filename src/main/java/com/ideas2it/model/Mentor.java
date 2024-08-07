@@ -8,11 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.FetchType;
-
-import com.ideas2it.model.Employee;
 
 /** 
 * <p>This class is used to get and set the 
@@ -40,9 +37,9 @@ public class Mentor {
     Set<Employee> employees;
 
     /** 
-    * This Constructor Initializes the new Mentor Id and Name
+    * This Constructor Initializes the new Mentor ID and Name
     *
-    * @param name - Name of the Mentor
+    * @param mentorName - Name of the Mentor
     */
     public Mentor(String mentorName) {
         this.mentorName = mentorName;

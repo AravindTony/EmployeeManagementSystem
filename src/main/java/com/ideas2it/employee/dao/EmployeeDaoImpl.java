@@ -3,7 +3,6 @@ package com.ideas2it.employee.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.query.Query; 
 import org.hibernate.Session; 
@@ -13,8 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.ideas2it.model.Employee;
-import com.ideas2it.model.Mentor;
-import com.ideas2it.model.Department;
 import com.ideas2it.customexception.EmployeeException;
 import com.ideas2it.connectionmanager.HibernateManager;
 
@@ -26,7 +23,7 @@ import com.ideas2it.connectionmanager.HibernateManager;
  * @author Aravind
  */
 public class EmployeeDaoImpl implements EmployeeDao {
-    private static Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
     @Override
     public List<Employee> getRecords() throws EmployeeException {
@@ -46,53 +43,43 @@ public class EmployeeDaoImpl implements EmployeeDao {
             logger.error("Error while get Employee Records..");
             throw new EmployeeException("Error while get All employee records..", e);
         } finally {
-	    if (null != session) {
+	        if (null != session) {
                 session.close();
-	    }
+	        }
         }  
         return employeeRecords;
     }
 
     @Override
     public Employee insertData(Employee employee) throws EmployeeException {
-        Session session = HibernateManager.getFactory().openSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateManager.getFactory().openSession()) {
             transaction = session.beginTransaction();
             Integer id = (Integer) session.save(employee);
             transaction.commit();
         } catch (HibernateException e) {
-            if(null != transaction) {
+            if (null != transaction) {
                 transaction.rollback();
             }
-            logger.error("Error occured while Adding this Employee :" + employee.getEmployeeName());
-            throw new EmployeeException("Error occured while adding employee of name : " + employee.getEmployeeName(), e);
-        } finally {
-            if (null != session) {
-                session.close();
-	    }
+            logger.error("Error occurred while Adding this Employee :{}", employee.getEmployeeName());
+            throw new EmployeeException("Error occurred while adding employee of name : " + employee.getEmployeeName(), e);
         }
-	return employee;
+	    return employee;
     }
 
     @Override
     public void updateRecord(Employee employee) throws EmployeeException {
-	Session session = HibernateManager.getFactory().openSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateManager.getFactory().openSession()) {
             transaction = session.beginTransaction();
             session.saveOrUpdate(employee);
             transaction.commit();
         } catch (HibernateException e) {
-            if(null != transaction) {
+            if (null != transaction) {
                 transaction.rollback();
             }
-            logger.error("Error while updating with Employee :" + employee.getEmployeeName());
+            logger.error("Error while updating with Employee :{}", employee.getEmployeeName());
             throw new EmployeeException("Error while updating employee of ID : " + employee.getEmployeeId(), e);
-        } finally {
-            if (null != session) {
-                session.close();
-	    }
         }
     }
     
@@ -100,31 +87,30 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public Employee getEmployeeById(int employeeId) throws EmployeeException {
         Session session = HibernateManager.getFactory().openSession();
         Transaction transaction = null;
-        Employee employee = null;
+        Employee employee;
         try {
             transaction = session.beginTransaction();
             employee = session.createQuery("from Employee where isDeleted = false and employeeId = :employeeId", Employee.class)
-			      .setParameter("employeeId", employeeId).uniqueResult();
+			                  .setParameter("employeeId", employeeId).uniqueResult();
             transaction.commit();
         } catch (HibernateException e) {
             if(null != transaction) {
                 transaction.rollback();
             }
-	    logger.error("Error while get Employee by this Id: " + employeeId);
+            logger.error("Error while get Employee by this Id: {}", employeeId);
             throw new EmployeeException("Error while getting employee of Id : " + employeeId, e);
         } finally {
             if (null != session) {
                 session.close();
-	    }
+	        }
         }
         return employee;
     }
  
     @Override
     public void deleteRecord(int deleteId) throws EmployeeException {
-        Session session = HibernateManager.getFactory().openSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateManager.getFactory().openSession()) {
             transaction = session.beginTransaction();
             String deleteQuery = "update Employee set isDeleted = :isDeleted where id = :deleteId";
             Query<?> query = session.createQuery(deleteQuery);
@@ -133,15 +119,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
             query.executeUpdate();
             transaction.commit();
         } catch (HibernateException e) {
-            if(null != transaction) {
+            if (null != transaction) {
                 transaction.rollback();
             }
-	    logger.error("Error while deleting employee with this Id :" + deleteId);
+            logger.error("Error while deleting employee with this Id :{}", deleteId);
             throw new EmployeeException("Error while deleting employee of Id : " + deleteId, e);
-        } finally {
-            if (null != session) {
-                session.close();
-	    }
         }
     }
 }

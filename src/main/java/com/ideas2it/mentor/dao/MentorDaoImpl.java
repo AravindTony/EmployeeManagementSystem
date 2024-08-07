@@ -3,11 +3,11 @@ package com.ideas2it.mentor.dao;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.time.LocalDate;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException; 
@@ -17,9 +17,7 @@ import org.hibernate.query.Query;
 
 import com.ideas2it.model.Mentor;
 import com.ideas2it.model.Employee;
-import com.ideas2it.model.Department;
 import com.ideas2it.customexception.EmployeeException;
-import com.ideas2it.mentor.dao.MentorDaoImpl;
 import com.ideas2it.connectionmanager.HibernateManager;
 
 /** 
@@ -31,7 +29,7 @@ import com.ideas2it.connectionmanager.HibernateManager;
  * @author Aravind
  */
 public class MentorDaoImpl implements MentorDao {
-    static Map<Integer, Mentor> mentors= new HashMap<>();
+    private static final Logger logger = LogManager.getLogger();
 
     @Override
     public Mentor getMentor(int mentorId) throws EmployeeException {
@@ -48,12 +46,12 @@ public class MentorDaoImpl implements MentorDao {
             if(null != transaction) {
                 transaction.rollback();
             }
-	    logger.error("An Error occured while get Mentor..");
+	        logger.error("An Error occurred while get Mentor..");
             throw new EmployeeException("Error while get Mentor with id : " + mentorId, e);
         } finally {
             if (null != session) {
                 session.close();
-	    }
+	        }
         }
         return mentor;
     }
@@ -75,44 +73,37 @@ public class MentorDaoImpl implements MentorDao {
             if (null != transaction) {
                 transaction.rollback();
             }
-            logger.error("An error occured while get Mentors..");
+            logger.error("An error occurred while get Mentors..");
             throw new EmployeeException("Error while fetching available Mentors !", e);
         } finally {
             if (null != session) {
                 session.close();
-	    }
+	        }
         }
         return mentors;
     }    
 
     @Override
     public void addMentor(String name) throws EmployeeException {
-        Session session = HibernateManager.getFactory().openSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateManager.getFactory().openSession()) {
             transaction = session.beginTransaction();
             Mentor mentor = new Mentor(name);
             Integer id = (Integer) session.save(mentor);
             transaction.commit();
         } catch (HibernateException e) {
-            if(null != transaction) {
+            if (null != transaction) {
                 transaction.rollback();
             }
-	    logger.error("An Error occured while add Mentor..");
+            logger.error("An Error occurred while add Mentor..");
             throw new EmployeeException("Error while adding Mentor of name : " + name, e);
-        } finally {
-            if (null != session) {
-                session.close();
-	    }
         }
     }
 
     @Override
     public void addEmployee(Mentor mentor, Employee employee) throws EmployeeException {
-	
-        Session session = HibernateManager.getFactory().openSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateManager.getFactory().openSession()) {
             transaction = session.beginTransaction();
             Employee employeeObject = session.get(Employee.class, employee.getEmployeeId());
             Mentor mentorObject = session.get(Mentor.class, mentor.getMentorId());
@@ -120,59 +111,49 @@ public class MentorDaoImpl implements MentorDao {
             Set<Employee> employees = mentorObject.getEmployees();
             mentors.add(mentorObject);
             employees.add(employeeObject);
-            session.saveOrUpdate(employeeObject);    
-            session.saveOrUpdate(mentorObject);  
-            transaction.commit();          
+            session.saveOrUpdate(employeeObject);
+            session.saveOrUpdate(mentorObject);
+            transaction.commit();
         } catch (HibernateException e) {
-            if(null != transaction) {
+            if (null != transaction) {
                 transaction.rollback();
             }
         } catch (Exception e) {
-            logger.error("Error while Adding Employee to Mentor.." + e.getMessage());
+            logger.error("Error while Adding Employee to Mentor..{}", e.getMessage());
             throw new EmployeeException("Error while adding mentor " + mentor.getMentorName()
-                                        + "to employee id : " + employee.getEmployeeName(), e);
-        } finally {
-            if (null != session) {
-                session.close();
-	    }
+                    + "to employee id : " + employee.getEmployeeName(), e);
         }
     }
     
     @Override
     public Set<Employee> getEmployeesByMentor(int mentorId) throws EmployeeException {
-        Set<Employee> employees = new HashSet<>();
-        Session session = HibernateManager.getFactory().openSession();
         Transaction transaction = null;
-        try {
+        Set<Employee> employees = new HashSet<>();
+        try (Session session = HibernateManager.getFactory().openSession()) {
             transaction = session.beginTransaction();
             String hql = "select m from Mentor m left join fetch m.employees where m.id = :mentorId";
             Mentor mentor = session.createQuery(hql, Mentor.class)
-                                              .setParameter("mentorId", mentorId)
-                                              .uniqueResult();
+                    .setParameter("mentorId", mentorId)
+                    .uniqueResult();
             if (null != mentor) {
                 Hibernate.initialize(mentor.getEmployees());
                 employees = mentor.getEmployees();
             }
             transaction.commit();
         } catch (HibernateException e) {
-            if(null != transaction) {
+            if (null != transaction) {
                 transaction.rollback();
             }
-            logger.error("An Error occured while get Employees By mentor..");
+            logger.error("An Error occurred while get Employees By mentor..");
             throw new EmployeeException("Error while getting employees of mentor id : " + mentorId, e);
-        } finally {
-            if (null != session) {
-                session.close();
-	    }
         }
         return employees;
     }
 
     @Override
     public void deleteMentor(int mentorId) throws EmployeeException {
-	Session session = HibernateManager.getFactory().openSession();
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateManager.getFactory().openSession()) {
             transaction = session.beginTransaction();
             String deleteQuery = "update Mentor set isDeleted = :isDeleted WHERE id = :mentorId";
             Query<?> query = session.createQuery(deleteQuery);
@@ -181,15 +162,11 @@ public class MentorDaoImpl implements MentorDao {
             query.executeUpdate();
             transaction.commit();
         } catch (HibernateException e) {
-            if(null != transaction) {
+            if (null != transaction) {
                 transaction.rollback();
             }
-	    logger.error("An error occured while delete Mentor..");
+            logger.error("An error occurred while delete Mentor..");
             throw new EmployeeException("Error while deleting employee of id : " + mentorId, e);
-        } finally {
-            if (null != session) {
-                session.close();
-	    }
         }
     }
 }

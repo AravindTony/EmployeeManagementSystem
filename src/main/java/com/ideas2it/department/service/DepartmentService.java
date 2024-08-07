@@ -24,7 +24,7 @@ public interface DepartmentService {
      * 
      * @throws EmployeeException while get Departments
      */
-    public Map<Integer, Department> getDepartments() throws EmployeeException;
+    Map<Integer, Department> getDepartments() throws EmployeeException;
 
     /** 
      * <p>
@@ -32,7 +32,7 @@ public interface DepartmentService {
      * </p>
      * @return Employees - List of Employees
      */
-    public List<Employee> getEmployeeRecords();
+    List<Employee> getEmployeeRecords();
 
     /** 
      * <p>
@@ -43,39 +43,39 @@ public interface DepartmentService {
      *
      * @throws EmployeeException - Error while Adding Department to the Database
      */
-    public void addDepartment(String departmentName) throws EmployeeException;
+    void addDepartment(String departmentName) throws EmployeeException;
    
     /**
      * <p>
      * This method to delete a department by the department
      * id given by the user
      * </p>
-     * @param id department - Department Id given by the user
+     * @param id - Department ID given by the user
      *
      * @throws EmployeeException - Error while Delete Department by Department Id
      */
-    public void deleteDepartment(int id) throws EmployeeException;
+    void deleteDepartment(int id) throws EmployeeException;
 
     /**  
      * <p>
      * This method return the Department Object 
      * with the Department Id
      * </p>
-     * @param departmentId - Id of the Department to get Department Object
+     * @param departmentId - ID of the Department to get Department Object
      *
      * @return Department - Department as the Object
      * 
-     * @throws EmployeeException- Error while get Department as Object by Department Id
+     * @throws EmployeeException- Error while get Department as Object by Department ID
      */
-    public Department getDepartmentObject(int departmentId) throws EmployeeException;
+    Department getDepartmentObject(int departmentId) throws EmployeeException;
 
     /**
      * <p>
      * This method update Department name with id
      * </p>
-     * @param Department - Department as the Object
+     * @param department - Department as the Object
      * 
      * @throws EmployeeException - Error while Update Department
      */
-    public void updateDepartmentRecord(Department department) throws EmployeeException;
+    void updateDepartmentRecord(Department department) throws EmployeeException;
 }
