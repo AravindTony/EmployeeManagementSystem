@@ -2,7 +2,7 @@ package com.ideas2it.department.dao;
 
 import java.util.Map;
 
-import com.ideas2it.customexception.EmployeeException;
+import com.ideas2it.customException.EmployeeException;
 import com.ideas2it.model.Department;
 
 /**

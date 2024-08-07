@@ -3,7 +3,7 @@ package com.ideas2it.department.service;
 import java.util.Map;
 import java.util.List;
 
-import com.ideas2it.customexception.EmployeeException;
+import com.ideas2it.customException.EmployeeException;
 import com.ideas2it.model.Department;
 import com.ideas2it.model.Employee;
 

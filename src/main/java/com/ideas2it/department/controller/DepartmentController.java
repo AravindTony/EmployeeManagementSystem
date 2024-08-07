@@ -12,7 +12,7 @@ import com.ideas2it.department.service.DepartmentService;
 import com.ideas2it.department.service.DepartmentServiceImpl;
 import com.ideas2it.model.Employee;
 import com.ideas2it.model.Department;
-import com.ideas2it.customexception.EmployeeException;
+import com.ideas2it.customException.EmployeeException;
 
 /**
  *<p>

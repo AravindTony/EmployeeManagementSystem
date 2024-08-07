@@ -16,8 +16,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.ideas2it.model.Employee;
-import com.ideas2it.customexception.EmployeeException;
-import com.ideas2it.connectionmanager.HibernateManager;
+import com.ideas2it.customException.EmployeeException;
+import com.ideas2it.connectionManager.HibernateManager;
 import com.ideas2it.model.Department;
 
 /**

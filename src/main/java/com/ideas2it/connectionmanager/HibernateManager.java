@@ -1,7 +1,10 @@
-package com.ideas2it.connectionmanager;
+package com.ideas2it.connectionManager;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * <p>
@@ -11,12 +14,13 @@ import org.hibernate.cfg.Configuration;
  */
 public class HibernateManager {
     private static final SessionFactory factory;
+    private static final Logger logger = LogManager.getLogger();
 
     static {
         try {
             factory = new Configuration().configure().buildSessionFactory();
-        } catch (Throwable e) { 
-            System.err.println("Failed to create sessionFactory object." + e);
+        } catch (Throwable e) {
+            logger.error("Failed to create sessionFactory object.{}", e);
             throw new ExceptionInInitializerError(e); 
         }
     }

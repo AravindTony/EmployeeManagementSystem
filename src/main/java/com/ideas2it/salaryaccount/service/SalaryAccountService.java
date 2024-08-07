@@ -1,4 +1,4 @@
-package com.ideas2it.salaryaccount.service;
+package com.ideas2it.salaryAccount.service;
 
 import com.ideas2it.model.SalaryAccount;
 

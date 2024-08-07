@@ -7,13 +7,13 @@ import java.util.Map;
 import com.ideas2it.employee.dao.EmployeeDao;
 import com.ideas2it.department.service.DepartmentService;
 import com.ideas2it.model.Employee;
-import com.ideas2it.customexception.EmployeeException;
+import com.ideas2it.customException.EmployeeException;
 import com.ideas2it.model.Department;
 import com.ideas2it.department.service.DepartmentServiceImpl;
 import com.ideas2it.employee.dao.EmployeeDaoImpl;
 import com.ideas2it.model.SalaryAccount;
-import com.ideas2it.salaryaccount.service.SalaryAccountService;
-import com.ideas2it.salaryaccount.service.SalaryAccountServiceImpl;
+import com.ideas2it.salaryAccount.service.SalaryAccountService;
+import com.ideas2it.salaryAccount.service.SalaryAccountServiceImpl;
 
 /**
  * <p>

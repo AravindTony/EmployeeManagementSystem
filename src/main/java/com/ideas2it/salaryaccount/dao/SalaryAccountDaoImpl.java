@@ -1,10 +1,10 @@
-package com.ideas2it.salaryaccount.dao;
+package com.ideas2it.salaryAccount.dao;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.ideas2it.connectionmanager.HibernateManager;
+import com.ideas2it.connectionManager.HibernateManager;
 
 import com.ideas2it.model.SalaryAccount;
 

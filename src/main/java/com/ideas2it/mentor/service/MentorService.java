@@ -3,7 +3,7 @@ package com.ideas2it.mentor.service;
 import java.util.Map;
 import java.util.Set;
 
-import com.ideas2it.customexception.EmployeeException;
+import com.ideas2it.customException.EmployeeException;
 import com.ideas2it.model.Mentor;
 import com.ideas2it.model.Employee;
 

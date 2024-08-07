@@ -1,8 +1,8 @@
-package com.ideas2it.salaryaccount.service;
+package com.ideas2it.salaryAccount.service;
 
 import com.ideas2it.model.SalaryAccount;
-import com.ideas2it.salaryaccount.dao.SalaryAccountDao;
-import com.ideas2it.salaryaccount.dao.SalaryAccountDaoImpl;
+import com.ideas2it.salaryAccount.dao.SalaryAccountDao;
+import com.ideas2it.salaryAccount.dao.SalaryAccountDaoImpl;
 
 public class SalaryAccountServiceImpl implements SalaryAccountService {
     SalaryAccountDao salaryAccountDao = new SalaryAccountDaoImpl();

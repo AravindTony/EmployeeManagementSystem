@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 import com.ideas2it.mentor.service.MentorService;
 import com.ideas2it.model.Mentor;
 import com.ideas2it.model.Employee;
-import com.ideas2it.customexception.EmployeeException;
+import com.ideas2it.customException.EmployeeException;
 import com.ideas2it.mentor.service.MentorServiceImpl;
 
 /** 

@@ -13,7 +13,7 @@ import com.ideas2it.model.Mentor;
 import com.ideas2it.model.Employee;
 import com.ideas2it.mentor.service.MentorService;
 import com.ideas2it.model.Department;
-import com.ideas2it.customexception.EmployeeException;
+import com.ideas2it.customException.EmployeeException;
 import com.ideas2it.mentor.service.MentorServiceImpl;
 import com.ideas2it.util.Validator;
 
@@ -86,12 +86,18 @@ public class EmployeeController {
      * @return employeeName - Name of the Employee
      */
     public String getValidEmployeeName() {
-	    System.out.println("Enter Employee Name :");
-        String employeeName = inputObject.nextLine();
-        if (!Validator.isValidName(employeeName)) {
-	        System.out.println("Enter Valid Name..");
-	        getValidEmployeeName();
-	    }
+        String employeeName = "";
+        try {
+            System.out.println("Enter Employee Name :");
+            employeeName = inputObject.nextLine();
+            if (!Validator.isValidName(employeeName)) {
+                System.out.println("Enter Valid Name..");
+                getValidEmployeeName();
+            }
+        } catch(Exception e) {
+            logger.error("Invalid Name..{}", employeeName);
+            getValidEmployeeName();
+        }
 	    return employeeName;
     }
 
@@ -102,9 +108,17 @@ public class EmployeeController {
      * @return dateOfBirth - Date of Birth of the Employee
      */
     public LocalDate getValidDateOfBirth() {
-        System.out.println("Enter Employee Date of Birth (yyyy-mm-dd) :");
-	    String dateOfBirthStr = inputObject.nextLine();
-        return LocalDate.parse(dateOfBirthStr);
+        String dateOfBirthStr = "";
+        LocalDate date = null;
+        try {
+            System.out.println("Enter Employee Date of Birth (yyyy-mm-dd) :");
+            dateOfBirthStr = inputObject.nextLine();
+            date = LocalDate.parse(dateOfBirthStr);
+        } catch (Exception e) {
+            logger.error("Enter Valid Date of Birth..");
+            getValidDateOfBirth();
+        }
+        return date;
     }
 
     /**
@@ -114,12 +128,18 @@ public class EmployeeController {
      * @return mobileNumber - Mobile number of the Employee 
      */
     public long getValidMobileNumber() {
-	    System.out.println("Enter Employee Mobile Number :");
-        long mobileNumber = inputObject.nextLong();
-	    if (!Validator.validateMobile(mobileNumber)) {
-	        System.out.println("Enter Valid Mobile Number..");
-	        getValidMobileNumber();
-	    }
+        long mobileNumber = 0;
+        try {
+            System.out.println("Enter Employee Mobile Number :");
+            mobileNumber = inputObject.nextLong();
+            if (!Validator.validateMobile(mobileNumber)) {
+                System.out.println("Enter Valid Mobile Number..");
+                getValidMobileNumber();
+            }
+        } catch (Exception e) {
+            System.out.println("Enter Valid Mobile Number..");
+            getValidMobileNumber();
+        }
         return mobileNumber;
     }
 
@@ -130,12 +150,18 @@ public class EmployeeController {
      * @return employeeEmail - Email id of the Employee
      */
     public String getValidEmailId() {
-	    System.out.println("Enter Employee Email Id :");
-        String employeeEmail = inputObject.nextLine();  
-        if (!Validator.emailValidator(employeeEmail)) {
-	        System.out.println("Enter Valid Email Id..");
-	        getValidEmailId();
-    	}
+        String employeeEmail = "";
+        try {
+            System.out.println("Enter Employee Email Id :");
+            employeeEmail = inputObject.nextLine();
+            if (!Validator.emailValidator(employeeEmail)) {
+                System.out.println("Enter Valid Email Id..");
+                getValidEmailId();
+            }
+        } catch (Exception e) {
+            logger.error("Invalid Email id");
+            getValidEmailId();
+        }
 	    return employeeEmail;
     }
 
@@ -148,12 +174,12 @@ public class EmployeeController {
      */
     public void displayRecords() {
         logger.debug("Retrieving the List of Employees..");
-	try {
+	    try {
             if (employeeService.getEmployeeDetails().isEmpty()) {
                 logger.info("No Data Found..");
                 System.out.println("----------------------");
             }
-	    String format = "| %-4s | %-15s | %-10s | %-5s | %-15s | %-15s" 
+	        String format = "| %-4s | %-15s | %-10s | %-5s | %-15s | %-15s"
                                             + "| %-7s | %-5s | %-10s | %-10s\n";
             System.out.format(format, "Id", "Name","Department", "Age"
 		             , "Mobile Number", "Email Id"
@@ -161,23 +187,23 @@ public class EmployeeController {
             System.out.println("-----------------------------------------"
 				      + "----------------------------------------"
 				      + "----------------------------------------");
-	    for (Employee employee : employeeService.getEmployeeDetails()) {
-		System.out.format(format, employee.getEmployeeId()
-				 , employee.getEmployeeName()
-				 , employee.getDepartment().getDepartmentName()
-				 , employee.getAge()
-				 , employee.getMobileNumber()
-				 , employee.getEmployeeEmail()
-				 , employee.getQualification()
-				 , "\t\t" +employee.getExperience()
-				 , employee.getNames()
-				 , employee.getAccount().getBankName());
+            for (Employee employee : employeeService.getEmployeeDetails()) {
+                System.out.format(format, employee.getEmployeeId()
+                                 , employee.getEmployeeName()
+                                 , employee.getDepartment().getDepartmentName()
+                                 , employee.getAge()
+                                 , employee.getMobileNumber()
+                                 , employee.getEmployeeEmail()
+                                 , employee.getQualification()
+                                 , "\t\t" +employee.getExperience()
+                                 , employee.getNames()
+                                 , employee.getAccount().getBankName());
                 System.out.println("---------------------------------------"
-			         + "--------------------------------------"
-			       	 + "--------------------------------------");
-            }   
+                                 + "--------------------------------------"
+                                 + "--------------------------------------");
+            }
         } catch (Exception e) {
-        logger.error("An error occurred while displaying all records: {}", e.getMessage());
+            logger.error("An error occurred while displaying all records: {}", e.getMessage());
         }
     }
 

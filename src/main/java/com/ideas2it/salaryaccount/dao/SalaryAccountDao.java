@@ -1,4 +1,4 @@
-package com.ideas2it.salaryaccount.dao;
+package com.ideas2it.salaryAccount.dao;
 
 import com.ideas2it.model.SalaryAccount;
 

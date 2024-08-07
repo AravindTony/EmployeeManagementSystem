@@ -12,8 +12,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.ideas2it.model.Employee;
-import com.ideas2it.customexception.EmployeeException;
-import com.ideas2it.connectionmanager.HibernateManager;
+import com.ideas2it.customException.EmployeeException;
+import com.ideas2it.connectionManager.HibernateManager;
 
 /** 
  * <p>
@@ -28,7 +28,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
     @Override
     public List<Employee> getRecords() throws EmployeeException {
         Session session = HibernateManager.getFactory().openSession();
-        Transaction transaction = null;   
+        Transaction transaction = null;
         List<Employee> employeeRecords = new ArrayList<>();
         try {
             transaction = session.beginTransaction();
@@ -46,7 +46,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	        if (null != session) {
                 session.close();
 	        }
-        }  
+        }
         return employeeRecords;
     }
 

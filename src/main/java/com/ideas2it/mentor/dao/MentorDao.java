@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.ideas2it.model.Mentor;
 import com.ideas2it.model.Employee;
-import com.ideas2it.customexception.EmployeeException;
+import com.ideas2it.customException.EmployeeException;
 
 /** 
  * <p>

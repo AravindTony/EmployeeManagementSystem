@@ -1,4 +1,4 @@
-package com.ideas2it.customexception;
+package com.ideas2it.customException;
 
 /** 
  * <p>

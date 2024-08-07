@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.time.LocalDate;
 
-import com.ideas2it.customexception.EmployeeException;
+import com.ideas2it.customException.EmployeeException;
 import com.ideas2it.model.Employee;
 import com.ideas2it.model.Department;
 
