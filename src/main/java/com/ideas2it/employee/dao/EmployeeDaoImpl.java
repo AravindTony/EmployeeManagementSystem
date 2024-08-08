@@ -27,25 +27,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     @Override
     public List<Employee> getRecords() throws EmployeeException {
-        Session session = HibernateManager.getFactory().openSession();
-        Transaction transaction = null;
         List<Employee> employeeRecords = new ArrayList<>();
-        try {
-            transaction = session.beginTransaction();
+        try (Session session = HibernateManager.getFactory().openSession()) {
             Query<Employee> query =  session.createQuery("from Employee where isDeleted = :isDeleted", Employee.class)
                                             .setParameter("isDeleted", false);
-            employeeRecords = query.list();                                   
-            transaction.commit();      
+            employeeRecords = query.list();
         } catch (HibernateException e) {
-            if(null != transaction) {
-                transaction.rollback();
-            }
             logger.error("Error while get Employee Records..");
             throw new EmployeeException("Error while get All employee records..", e);
-        } finally {
-	        if (null != session) {
-                session.close();
-	        }
         }
         return employeeRecords;
     }
@@ -55,7 +44,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         Transaction transaction = null;
         try (Session session = HibernateManager.getFactory().openSession()) {
             transaction = session.beginTransaction();
-            Integer id = (Integer) session.save(employee);
+            session.save(employee);
             transaction.commit();
         } catch (HibernateException e) {
             if (null != transaction) {
@@ -85,24 +74,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
     
     @Override
     public Employee getEmployeeById(int employeeId) throws EmployeeException {
-        Session session = HibernateManager.getFactory().openSession();
-        Transaction transaction = null;
         Employee employee;
-        try {
-            transaction = session.beginTransaction();
+        try (Session session = HibernateManager.getFactory().openSession()) {
             employee = session.createQuery("from Employee where isDeleted = false and employeeId = :employeeId", Employee.class)
 			                  .setParameter("employeeId", employeeId).uniqueResult();
-            transaction.commit();
         } catch (HibernateException e) {
-            if(null != transaction) {
-                transaction.rollback();
-            }
             logger.error("Error while get Employee by this Id: {}", employeeId);
             throw new EmployeeException("Error while getting employee of Id : " + employeeId, e);
-        } finally {
-            if (null != session) {
-                session.close();
-	        }
         }
         return employee;
     }

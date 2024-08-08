@@ -23,12 +23,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Map<Integer, Department> getDepartments() throws EmployeeException {
-	    return departmentWarehouse.getEmployeeDepartments();
-    }   
-
-    @Override
-    public List<Employee> getEmployeeRecords() {
-        return employeeRecords;
+	    return departmentWarehouse.getDepartments();
     }
 
     @Override

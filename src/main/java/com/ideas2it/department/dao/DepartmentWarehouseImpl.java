@@ -3,10 +3,7 @@ package com.ideas2it.department.dao;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashSet;
-import java.util.Set;
 
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException; 
 import org.hibernate.Session; 
 import org.hibernate.Transaction;
@@ -15,7 +12,6 @@ import org.hibernate.query.Query;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.ideas2it.model.Employee;
 import com.ideas2it.customException.EmployeeException;
 import com.ideas2it.connectionManager.HibernateManager;
 import com.ideas2it.model.Department;
@@ -36,7 +32,7 @@ public class DepartmentWarehouseImpl implements DepartmentWarehouse {
         try (Session session = HibernateManager.getFactory().openSession()) {
             transaction = session.beginTransaction();
             Department department = new Department(departmentName);
-            Integer id = (Integer) session.save(department);
+            session.save(department);
             transaction.commit();
         } catch (HibernateException e) {
             if (null != transaction) {
@@ -48,73 +44,33 @@ public class DepartmentWarehouseImpl implements DepartmentWarehouse {
     }
 
     @Override
-    public Map<Integer, Department> getEmployeeDepartments() throws EmployeeException {
-        Session session = HibernateManager.getFactory().openSession();
+    public Map<Integer, Department> getDepartments() throws EmployeeException {
         Map<Integer, Department> departments = new HashMap<>();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
+        try (Session session = HibernateManager.getFactory().openSession()) {
+            session.beginTransaction();
             Query<Department> query = session.createQuery("FROM Department", Department.class);
             List<Department> departmentsFromDataBase = query.list();
             for (Department department : departmentsFromDataBase) {
                 departments.put(department.getDepartmentId(), department);
             }
         } catch (HibernateException e) {
-            if(null != transaction) {
-                transaction.rollback();
-            }
-	    logger.error("An error occurred while Get Departments..");
+	        logger.error("An error occurred while Get Departments..");
             throw new EmployeeException("Error while fetching available departments : ", e);
-        } finally {
-            if (null != session) {
-                session.close();
-	    }
         }
         return departments;
     }
 
     @Override
     public Department getDepartmentObject(int departmentId) throws EmployeeException {
-        Session session = HibernateManager.getFactory().openSession();
-        Transaction transaction = null;
         Department department;
-        try {
-            transaction = session.beginTransaction();
-            department = session.get(Department.class, departmentId);
-            transaction.commit();
-        } catch (HibernateException e) {
-            if(null != transaction) {
-                transaction.rollback();
-            }
-	    logger.error("Error Occurred While get Department Object..");
-            throw new EmployeeException("Error while fetching department of id : " + departmentId, e);
-        } finally {
-            if (null != session) {
-                session.close();
-	    }
-        } 
-        return department;
-    }
-
-    public Set<Employee> getEmployeesByDepartment(int departmentId) throws EmployeeException {
-        Transaction transaction = null;
-        Set<Employee> employees = new HashSet<>();
         try (Session session = HibernateManager.getFactory().openSession()) {
-            transaction = session.beginTransaction();
-            Department department = session.get(Department.class, departmentId);
-            if (null != department) {
-                Hibernate.initialize(department.getEmployees());
-                employees = department.getEmployees();
-            }
-            transaction.commit();
+            session.beginTransaction();
+            department = session.get(Department.class, departmentId);
         } catch (HibernateException e) {
-            if (null != transaction) {
-                transaction.rollback();
-            }
-            logger.error("Error Occurred while get Employees by Department..");
-            throw new EmployeeException("Error while fetching employees of Department Id : " + departmentId, e);
+            logger.error("Error Occurred While get Department Object..");
+            throw new EmployeeException("Error while fetching department of id : " + departmentId, e);
         }
-        return employees;
+        return department;
     }
 
     @Override

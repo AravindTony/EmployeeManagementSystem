@@ -1,11 +1,9 @@
 package com.ideas2it.department.service;
 
 import java.util.Map;
-import java.util.List;
 
 import com.ideas2it.customException.EmployeeException;
 import com.ideas2it.model.Department;
-import com.ideas2it.model.Employee;
 
 /**
 * <p>
@@ -25,14 +23,6 @@ public interface DepartmentService {
      * @throws EmployeeException while get Departments
      */
     Map<Integer, Department> getDepartments() throws EmployeeException;
-
-    /** 
-     * <p>
-     * This method return the Employee Records to the Employee Controller
-     * </p>
-     * @return Employees - List of Employees
-     */
-    List<Employee> getEmployeeRecords();
 
     /** 
      * <p>

@@ -1,12 +1,10 @@
 package com.ideas2it.employee.service;
 
 import java.util.List;
-import java.util.Map;
 import java.time.LocalDate;
 
 import com.ideas2it.customException.EmployeeException;
 import com.ideas2it.model.Employee;
-import com.ideas2it.model.Department;
 
 /**
  * <p>
@@ -24,16 +22,6 @@ public interface EmployeeService {
      * @return Employee - List of Employees
      */
     List<Employee> getEmployeeDetails() throws EmployeeException;
- 
-    /**
-     * <p>
-     * This method get the Department Object using the Id
-     * </p>
-     * @param departmentId - ID of the Department
-     *
-     * @return Department Object by the ID
-     */
-    Department getDepartmentObj(int departmentId) throws EmployeeException;
 
     /** 
      * <p>
@@ -66,22 +54,6 @@ public interface EmployeeService {
      * @throws EmployeeException while Delete the Data in the Database
      */ 
     void deleteRecord(int deleteId) throws EmployeeException;
-
-    /**
-     * <p>
-     * This method to display the Departments in the 
-     * Department Repository
-     * </p>
-     */
-    void getDepartments() throws EmployeeException;
-
-    /**
-     * <p>
-     * This method return the Employee Departments
-     * </p>
-     * @return Employee Departments
-     */
-    Map<Integer, Department> getEmployeeDepartments() throws EmployeeException;
 
     /** 
      * <p>

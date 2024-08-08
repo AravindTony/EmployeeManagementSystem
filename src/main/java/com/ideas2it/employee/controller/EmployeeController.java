@@ -9,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.ideas2it.employee.service.EmployeeService;
 import com.ideas2it.employee.service.EmployeeServiceImpl;
+import com.ideas2it.department.service.DepartmentService;
+import com.ideas2it.department.service.DepartmentServiceImpl;
 import com.ideas2it.model.Mentor;
 import com.ideas2it.model.Employee;
 import com.ideas2it.mentor.service.MentorService;
@@ -33,6 +35,7 @@ public class EmployeeController {
     private static final Logger logger = LogManager.getLogger();
     private final MentorService mentorService = new MentorServiceImpl();
     private final EmployeeService employeeService = new EmployeeServiceImpl();
+    private final DepartmentService departmentService = new DepartmentServiceImpl();
 
     /**
      * <p>
@@ -42,7 +45,7 @@ public class EmployeeController {
      */
     public void createEmployeeRecord() {
         try {
-            if (employeeService.getEmployeeDepartments().isEmpty()) {
+            if (departmentService.getDepartments().isEmpty()) {
                     logger.warn("Add a department to continue.. Departments are Empty..");
             }
             else {
@@ -51,7 +54,7 @@ public class EmployeeController {
                     logger.debug("Employee Credentials Validation Started..");
                     String employeeName = getValidEmployeeName();
                     LocalDate dateOfBirth = getValidDateOfBirth();
-                    employeeService.getDepartments();
+                    departmentService.getDepartments();
                     System.out.println("Enter Department Id:");
                     int departmentId = inputObject.nextInt();
                     long mobileNumber = getValidMobileNumber();
@@ -312,10 +315,10 @@ public class EmployeeController {
 		            employee.setDateOfBirth(updatedDateOfBirth);
                     break;	
 		        case 7:
-                    employeeService.getDepartments();
+                    departmentService.getDepartments();
                     System.out.println("Enter Department Id to Update :");
                     int departmentId = inputObject.nextInt();
-                    Department department = employeeService.getDepartmentObj(departmentId);
+                    Department department = departmentService.getDepartmentObject(departmentId);
                     employee.setDepartment(department);
 		            break;
                 default:

@@ -35,7 +35,7 @@ public interface DepartmentWarehouse {
      *
      * @throws EmployeeException while get Departments 
      */
-    Map<Integer, Department> getEmployeeDepartments() throws EmployeeException;
+    Map<Integer, Department> getDepartments() throws EmployeeException;
 
     /** 
      * <p>

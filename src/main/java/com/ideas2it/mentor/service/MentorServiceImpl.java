@@ -37,11 +37,6 @@ public class MentorServiceImpl implements MentorService {
     @Override
     public Map<Integer, Mentor> getMentors() throws EmployeeException {
         return mentorDao.getMentors();
-    } 
-    
-    @Override
-    public Set<Employee> getEmployeesByMentor(int mentorId) throws EmployeeException {
-	    return mentorDao.getEmployeesByMentor(mentorId);
     }
 
     @Override 

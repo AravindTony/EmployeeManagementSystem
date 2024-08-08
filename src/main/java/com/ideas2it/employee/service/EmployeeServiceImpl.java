@@ -33,14 +33,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Department getDepartmentObj(int departmentId) throws EmployeeException {
-	    return departmentService.getDepartmentObject(departmentId);
-    }
-
-    @Override
     public Employee addData(String employeeName, LocalDate dateOfBirth, long mobile, int departmentId, String qualification, 
 			int experience, String employeeEmail, String bankName, long accountNumber) throws EmployeeException {
-        Department department = getDepartmentObj(departmentId);
+        Department department = departmentService.getDepartmentObject(departmentId);
         SalaryAccount account = new SalaryAccount(bankName, accountNumber);
         salaryAccountService.addSalaryAccount(account);
         Employee employee = new Employee(employeeName, department, dateOfBirth, mobile, employeeEmail, qualification, experience, account);
@@ -55,16 +50,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void deleteRecord(int deleteId) throws EmployeeException {
         employeeDao.deleteRecord(deleteId);
-    }
-     
-    @Override
-    public void getDepartments() throws EmployeeException {
-	    departmentService.getDepartments();
-    }
-
-    @Override
-    public Map<Integer, Department> getEmployeeDepartments() throws EmployeeException {
-	    return departmentService.getDepartments();
     }
 
     @Override

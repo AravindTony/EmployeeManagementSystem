@@ -1,7 +1,8 @@
 package com.ideas2it.model;
 
+import com.ideas2it.util.DateCalculation;
+
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -151,9 +152,7 @@ public class Employee {
 	this.isDeleted = isDeleted;
     }
 
-    public void setEmployeeId(int employeeId) {
-	this.employeeId = employeeId;
-    }
+    public void setEmployeeId(int employeeId) { this.employeeId = employeeId; }
 
     public void setEmployeeName(String employeeName) {                              
 	this.employeeName = employeeName;
@@ -183,18 +182,14 @@ public class Employee {
 	this.department = department;
     }
 
-    public void setAccount(SalaryAccount account) {
-	this.account = account;
-    }
+    public void setAccount(SalaryAccount account) { this.account = account; }
 
-    public void setMentors(Set<Mentor> mentors) {
-	this.mentors = mentors;
-    }
+    public void setMentors(Set<Mentor> mentors) { this.mentors = mentors; }
 
-    public int getAge() {
+    public String getAge() {
 	    if (dateOfBirth != null) {
-	        return Period.between(dateOfBirth, LocalDate.now()).getYears();
+	        return DateCalculation.calculateDifferenceBetweenDates(dateOfBirth);
 	    }
-	    return 0;
+	    return "";
     }
 }

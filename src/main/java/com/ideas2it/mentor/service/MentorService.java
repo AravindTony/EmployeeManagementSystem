@@ -62,18 +62,6 @@ public interface MentorService {
 
     /**
      * <p>
-     * This method return the Employees by the Mentor Id
-     * </p>
-     * @param mentorId - ID of the Mentor
-     *
-     * @return Employees List
-     * 
-     * @throws EmployeeException while get Employees by Mentor 
-     */
-    Set<Employee> getEmployeesByMentor(int mentorId) throws EmployeeException;
-
-    /**
-     * <p>
      * This method to Delete Mentor with Mentor Id
      * </p>
      * @param mentorId - ID of the Mentor to Delete

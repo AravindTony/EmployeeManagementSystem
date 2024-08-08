@@ -1,0 +1,8 @@
+# ignore ALL .log files
+*.log
+
+# ignore ALL .class files
+*.class
+
+# ignore ALL files in ANY directory named .idea
+.idea/

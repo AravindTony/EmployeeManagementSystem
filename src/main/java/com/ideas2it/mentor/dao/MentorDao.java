@@ -62,18 +62,6 @@ public interface MentorDao {
 
     /**
      * <p>
-     * This method return the Employees with the Mentor id
-     * </p>
-     * @param mentorId - ID of the Mentor
-     *
-     * @return Employees - Employees as List
-     *
-     * @throws EmployeeException while return the Employees by Mentor
-     */
-    Set<Employee> getEmployeesByMentor(int mentorId) throws EmployeeException;
-
-    /**
-     * <p>
      * This method delete Mentor in the Database with Mentor id
      * </p>
      * @param mentorId - ID of the Mentor
